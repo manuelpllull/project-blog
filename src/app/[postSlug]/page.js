@@ -10,7 +10,7 @@ import styles from './postSlug.module.css';
 const cachedLoadBlogPost = cache(loadBlogPost);
 
 export async function generateMetadata({ params }) {
-  const { postSlug } = params;
+  const { postSlug } = await params;
 
   try {
     const { frontmatter } = await cachedLoadBlogPost(postSlug);
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function BlogPost({ params }) {
-  const { postSlug } = params;
+  const { postSlug } = await params;
 
   const { frontmatter, content } = await loadBlogPost(postSlug);
 
