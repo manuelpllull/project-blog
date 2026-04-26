@@ -24,17 +24,31 @@ const monoFont = Spline_Sans_Mono({
   variable: '--font-family-mono',
 });
 
+function cssTokensToRule(selector, tokens) {
+  return `${selector} {\n` +
+    Object.entries(tokens)
+      .map(([k, v]) => `  ${k}: ${v};`)
+      .join('\n') +
+    '\n}';
+}
+
 function RootLayout({ children }) {
   // TODO: Dynamic theme depending on user preference
   const theme = 'light';
+
+  const tokens = theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS;
+  const rule = cssTokensToRule(`html[data-color-theme='${theme}']`, tokens);
 
   return (
     <html
       lang="en"
       className={clsx(mainFont.variable, monoFont.variable)}
       data-color-theme={theme}
-      style={theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS}
     >
+      <head>
+        <meta charSet="utf-8" />
+        <style dangerouslySetInnerHTML={{ __html: rule }} />
+      </head>
       <body>
         <Header theme={theme} />
         <main>{children}</main>
