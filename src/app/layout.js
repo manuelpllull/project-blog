@@ -51,7 +51,7 @@ function RootLayout({ children }) {
       </head>
       <body>
         <Header theme={theme} />
-        <main>{children}</main>
+        <main suppressHydrationWarning>{children}</main>
         <Footer />
       </body>
     </html>
