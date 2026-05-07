@@ -4,7 +4,7 @@ import BlogHero from '@/components/BlogHero';
 import { loadBlogPost } from '@/helpers/file-helpers';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { BLOG_TITLE } from '@/constants';
-import CodeSnippet from '@/components/CodeSnippet';
+import MDX_COMPONENTS from '@/components/mdx/components';
 
 import styles from './postSlug.module.css';
 
@@ -42,9 +42,7 @@ export default async function BlogPost({ params }) {
       <div className={styles.page}>
         <MDXRemote
           source={content}
-          components={{
-            pre: CodeSnippet,
-          }}
+          components={MDX_COMPONENTS}
         />
       </div>
     </article>
