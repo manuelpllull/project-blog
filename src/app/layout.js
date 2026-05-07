@@ -4,6 +4,7 @@ import {
   Spline_Sans_Mono,
 } from 'next/font/google';
 import clsx from 'clsx';
+import { cookies } from 'next/headers';
 
 import { LIGHT_TOKENS, DARK_TOKENS } from '@/constants';
 
@@ -32,12 +33,21 @@ function cssTokensToRule(selector, tokens) {
     '\n}';
 }
 
-function RootLayout({ children }) {
-  // TODO: Dynamic theme depending on user preference
-  const theme = 'light';
-
-  const tokens = theme === 'light' ? LIGHT_TOKENS : DARK_TOKENS;
-  const rule = cssTokensToRule(`html[data-color-theme='${theme}']`, tokens);
+async function RootLayout({ children }) {
+  const cookieStore = await cookies();
+  const savedTheme = cookieStore.get('color-theme')?.value;
+  const theme =
+    savedTheme === 'dark' ? 'dark' : 'light';
+  const rule = [
+    cssTokensToRule(
+      "html[data-color-theme='light']",
+      LIGHT_TOKENS
+    ),
+    cssTokensToRule(
+      "html[data-color-theme='dark']",
+      DARK_TOKENS
+    ),
+  ].join('\n');
 
   return (
     <html
